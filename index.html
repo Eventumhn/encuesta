@@ -169,7 +169,7 @@ footer{text-align:center;font-size:12px;color:var(--dim)}
 </header>
 <div class="bar" aria-hidden="true"><span id="bar"></span></div>
 <main id="main"><div class="card carga" id="carga"><img src="logo-cubos.png" alt=""><p>Cargando su encuesta…</p></div></main>
-<footer>NOVA BTL S de RL · Sus respuestas nos ayudan a mejorar cada evento</footer>
+<footer>© <span id="yr">2026</span> Eventum. Todos los derechos reservados.</footer>
 </div>
 <script>
 const URL_APP="https://script.google.com/macros/s/AKfycbyipUDT9rYIrbMsW1Nbu5XjPD3PN3Gh1dEb5dN-wffnSKhjNc9l93lkKlfJ8MPA-MNJ/exec";
@@ -333,6 +333,7 @@ requestAnimationFrame(draw)}
 requestAnimationFrame(draw);
 function confeti(){const cols=["#ee4b22","#7c5cd6","#f5a524","#4fd6a3","#fce046"],d=devicePixelRatio||1;
 for(let k=0;k<170;k++)parts.push({x:W/2,y:H*.42,vx:(Math.random()-.5)*18*d,vy:(-Math.random()*13-4)*d,a:Math.random()*6,va:(Math.random()-.5)*.3,w:(6+Math.random()*6)*d,h:(3+Math.random()*4)*d,c:cols[k%5]})}
+try{document.getElementById("yr").textContent=new Date().getFullYear()}catch(e){}
 iniciar();
 </script>
 </body>
