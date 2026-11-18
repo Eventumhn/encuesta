@@ -184,20 +184,21 @@ let pasos=[], i=0;
 
 function post(datos){return fetch(URL_APP,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(datos)}).then(r=>r.json()).then(r=>{if(!r||r.ok===false)throw new Error((r&&r.error)||"No se pudo conectar.");return r})}
 
-function aviso(titulo,texto){
+const WA_NOVA="https://wa.me/50499354582?text="+encodeURIComponent("¡Hola, Nova! 👋 Tuve un evento con Eventum y quiero responder la encuesta de satisfacción. ¿Me ayudas con mi enlace?");
+function aviso(titulo,texto,wa){
   $("#paso").textContent="";$("#bar").style.width="0";
-  $("#main").innerHTML=`<section class="card entra gracias"><img class="hero" src="logo-cubos.png" alt=""><h2>${esc(titulo)}</h2><p class="lead">${esc(texto)}</p></section>`;
+  $("#main").innerHTML=`<section class="card entra gracias"><img class="hero" src="logo-cubos.png" alt=""><h2>${esc(titulo)}</h2><p class="lead">${esc(texto)}</p>${wa?`<a class="btn primary" style="text-decoration:none;text-align:center;align-self:stretch" href="${WA_NOVA}" target="_blank" rel="noopener">Pedir mi enlace por WhatsApp</a>`:""}</section>`;
 }
 
 function iniciar(){
-  if(!TOKEN){aviso("Este enlace no es válido","Pídele a Eventum el enlace de la encuesta de tu evento. ¡Gracias!");return}
+  if(!TOKEN){aviso("¿Tuviste un evento con Eventum?","Cada evento tiene su propio enlace de encuesta. Escríbele a Nova, nuestra asistente, y te lo hacemos llegar. Te toma menos de 2 minutos responderla.",true);return}
   post({accion:"encInfo",t:TOKEN}).then(r=>{
     INFO=r;
     if(r.respondida){aviso("Esta encuesta ya fue respondida","¡Muchas gracias! Ya recibimos la opinión de este evento.");return}
     pasos=["inicio","general"].concat(r.servicios&&r.servicios.length?["coord"]:[]).concat(["tec","reco","mejorar"]);
     if(!(r.servicios&&r.servicios.length))A.coordinacion="na";
     pintar(1);
-  }).catch(e=>aviso("No pudimos abrir la encuesta",e.message||"Revisa tu conexión e inténtalo de nuevo."));
+  }).catch(e=>aviso("No pudimos abrir la encuesta",e.message||"Revisa tu conexión e inténtalo de nuevo.",/no es válido/.test(e.message||"")));
 }
 
 function escribir(el){
